@@ -1,4 +1,4 @@
-# Salon_pro
+# salon-pro
 
 This repository contains a full-stack barbershop management platform for salons, barbers, customers, and owners.
 
