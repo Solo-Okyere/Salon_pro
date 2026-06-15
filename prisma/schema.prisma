@@ -1,0 +1,583 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  CUSTOMER
+  BARBER
+  OWNER
+  ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  MTN_MOMO
+  TELECEL_CASH
+  AT_MONEY
+  CASH
+}
+
+enum QueueStatus {
+  WAITING
+  CALLED
+  IN_SERVICE
+  DONE
+  LEFT
+}
+
+enum NotificationChannel {
+  WHATSAPP
+  SMS
+  IN_APP
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+}
+
+enum LoyaltyTier {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+enum InventoryUnit {
+  PIECE
+  BOTTLE
+  BOX
+  SET
+}
+
+// ─── Users ────────────────────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(uuid())
+  phone     String   @unique
+  name      String
+  email     String?  @unique
+  avatar    String?
+  password  String?
+  role      Role     @default(CUSTOMER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  // Relations
+  ownedShops       Shop[]             @relation("ShopOwner")
+  barberProfile    Barber?
+  bookings         Booking[]          @relation("CustomerBookings")
+  queueEntries     QueueEntry[]
+  payments         Payment[]
+  loyaltyAccounts  LoyaltyAccount[]
+  reviews          Review[]
+  notifications    Notification[]
+  otpCodes         OTPCode[]
+  refreshTokens    RefreshToken[]
+
+  @@index([phone])
+  @@index([role])
+  @@map("users")
+}
+
+model OTPCode {
+  id        String   @id @default(uuid())
+  userId    String
+  code      String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("otp_codes")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@map("refresh_tokens")
+}
+
+// ─── Shops & Branches ────────────────────────────────────────────────────────
+
+model Shop {
+  id          String  @id @default(uuid())
+  name        String
+  slug        String  @unique
+  phone       String
+  email       String?
+  address     String
+  city        String
+  region      String
+  country     String  @default("Ghana")
+  logo        String?
+  coverImage  String?
+  description String?
+  openTime    String  @default("08:00")
+  closeTime   String  @default("20:00")
+  timezone    String  @default("Africa/Accra")
+  isActive    Boolean @default(true)
+  isVerified  Boolean @default(false)
+  ownerId     String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relations
+  owner          User             @relation("ShopOwner", fields: [ownerId], references: [id])
+  barbers        Barber[]
+  services       Service[]
+  bookings       Booking[]
+  queueEntries   QueueEntry[]
+  payments       Payment[]
+  loyaltyAccounts LoyaltyAccount[]
+  reviews        Review[]
+  notifications  Notification[]
+  inventory      InventoryItem[]
+  forecasts      Forecast[]
+  aiInsights     AIInsight[]
+  staffSchedules StaffSchedule[]
+
+  @@index([slug])
+  @@index([ownerId])
+  @@index([city])
+  @@map("shops")
+}
+
+// ─── Barbers ─────────────────────────────────────────────────────────────────
+
+model Barber {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  shopId       String
+  bio          String?
+  specialties  String[]
+  rating       Float    @default(0)
+  totalReviews Int      @default(0)
+  isAvailable  Boolean  @default(true)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  user           User            @relation(fields: [userId], references: [id])
+  shop           Shop            @relation(fields: [shopId], references: [id])
+  bookings       Booking[]
+  queueEntries   QueueEntry[]
+  reviews        Review[]
+  staffSchedules StaffSchedule[]
+  performance    StaffPerformance[]
+
+  @@index([shopId])
+  @@index([userId])
+  @@map("barbers")
+}
+
+// ─── Services ────────────────────────────────────────────────────────────────
+
+model Service {
+  id              String  @id @default(uuid())
+  shopId          String
+  name            String
+  description     String?
+  price           Float
+  depositAmount   Float   @default(0)
+  durationMinutes Int     @default(30)
+  isActive        Boolean @default(true)
+  imageUrl        String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relations
+  shop         Shop         @relation(fields: [shopId], references: [id])
+  bookings     Booking[]
+  queueEntries QueueEntry[]
+
+  @@index([shopId])
+  @@map("services")
+}
+
+// ─── Bookings ─────────────────────────────────────────────────────────────────
+
+model Booking {
+  id             String        @id @default(uuid())
+  customerId     String
+  barberId       String
+  shopId         String
+  serviceId      String
+  scheduledAt    DateTime
+  status         BookingStatus @default(PENDING)
+  depositAmount  Float         @default(0)
+  depositPaid    Boolean       @default(false)
+  totalAmount    Float
+  notes          String?
+  noShowRisk     Float?
+  reminderSentAt DateTime?
+  cancelledAt    DateTime?
+  cancelReason   String?
+  completedAt    DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relations
+  customer      User          @relation("CustomerBookings", fields: [customerId], references: [id])
+  barber        Barber        @relation(fields: [barberId], references: [id])
+  shop          Shop          @relation(fields: [shopId], references: [id])
+  service       Service       @relation(fields: [serviceId], references: [id])
+  payments      Payment[]
+  review        Review?
+  notifications Notification[]
+
+  @@index([customerId])
+  @@index([barberId])
+  @@index([shopId])
+  @@index([scheduledAt])
+  @@index([status])
+  @@map("bookings")
+}
+
+// ─── Queue ───────────────────────────────────────────────────────────────────
+
+model QueueEntry {
+  id                   String      @id @default(uuid())
+  shopId               String
+  customerId           String
+  barberId             String?
+  serviceId            String?
+  queueNumber          Int
+  status               QueueStatus @default(WAITING)
+  isPremium            Boolean     @default(false)
+  estimatedWaitMinutes Int         @default(0)
+  joinedAt             DateTime    @default(now())
+  calledAt             DateTime?
+  serviceStartedAt     DateTime?
+  completedAt          DateTime?
+  leftAt               DateTime?
+
+  // Relations
+  shop     Shop     @relation(fields: [shopId], references: [id])
+  customer User     @relation(fields: [customerId], references: [id])
+  barber   Barber?  @relation(fields: [barberId], references: [id])
+  service  Service? @relation(fields: [serviceId], references: [id])
+
+  @@index([shopId])
+  @@index([customerId])
+  @@index([status])
+  @@index([shopId, status])
+  @@map("queue_entries")
+}
+
+// ─── Payments ────────────────────────────────────────────────────────────────
+
+model Payment {
+  id          String          @id @default(uuid())
+  bookingId   String?
+  customerId  String
+  shopId      String
+  amount      Float
+  provider    PaymentProvider
+  status      PaymentStatus   @default(PENDING)
+  reference   String          @unique
+  phoneNumber String
+  momoTxId    String?
+  failReason  String?
+  paidAt      DateTime?
+  refundedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  booking  Booking? @relation(fields: [bookingId], references: [id])
+  customer User     @relation(fields: [customerId], references: [id])
+  shop     Shop     @relation(fields: [shopId], references: [id])
+
+  @@index([customerId])
+  @@index([shopId])
+  @@index([reference])
+  @@index([status])
+  @@map("payments")
+}
+
+// ─── Loyalty ─────────────────────────────────────────────────────────────────
+
+model LoyaltyAccount {
+  id          String      @id @default(uuid())
+  customerId  String
+  shopId      String
+  points      Int         @default(0)
+  totalVisits Int         @default(0)
+  totalSpent  Float       @default(0)
+  tier        LoyaltyTier @default(BRONZE)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  customer     User              @relation(fields: [customerId], references: [id])
+  shop         Shop              @relation(fields: [shopId], references: [id])
+  transactions LoyaltyTransaction[]
+
+  @@unique([customerId, shopId])
+  @@index([customerId])
+  @@index([shopId])
+  @@map("loyalty_accounts")
+}
+
+model LoyaltyTransaction {
+  id               String  @id @default(uuid())
+  loyaltyAccountId String
+  points           Int
+  type             String  // EARN | REDEEM | REFERRAL | BONUS
+  description      String
+  bookingId        String?
+
+  createdAt DateTime @default(now())
+
+  account LoyaltyAccount @relation(fields: [loyaltyAccountId], references: [id])
+
+  @@index([loyaltyAccountId])
+  @@map("loyalty_transactions")
+}
+
+model LoyaltyReward {
+  id          String  @id @default(uuid())
+  shopId      String?
+  name        String
+  description String
+  pointsCost  Int
+  isActive    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("loyalty_rewards")
+}
+
+// ─── Reviews ─────────────────────────────────────────────────────────────────
+
+model Review {
+  id         String @id @default(uuid())
+  customerId String
+  shopId     String
+  barberId   String
+  bookingId  String @unique
+  rating     Int
+  comment    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customer User   @relation(fields: [customerId], references: [id])
+  shop     Shop   @relation(fields: [shopId], references: [id])
+  barber   Barber @relation(fields: [barberId], references: [id])
+  booking  Booking @relation(fields: [bookingId], references: [id])
+
+  @@index([shopId])
+  @@index([barberId])
+  @@map("reviews")
+}
+
+// ─── Notifications ───────────────────────────────────────────────────────────
+
+model Notification {
+  id         String              @id @default(uuid())
+  userId     String
+  shopId     String?
+  bookingId  String?
+  channel    NotificationChannel
+  status     NotificationStatus  @default(PENDING)
+  type       String
+  title      String
+  body       String
+  metadata   Json?
+  sentAt     DateTime?
+  deliveredAt DateTime?
+  failReason String?
+  retryCount Int                 @default(0)
+
+  createdAt DateTime @default(now())
+
+  user    User     @relation(fields: [userId], references: [id])
+  shop    Shop?    @relation(fields: [shopId], references: [id])
+  booking Booking? @relation(fields: [bookingId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@map("notifications")
+}
+
+// ─── Staff ───────────────────────────────────────────────────────────────────
+
+model StaffSchedule {
+  id        String   @id @default(uuid())
+  barberId  String
+  shopId    String
+  dayOfWeek Int      // 0 = Sunday, 6 = Saturday
+  startTime String
+  endTime   String
+  isWorking Boolean  @default(true)
+
+  barber Barber @relation(fields: [barberId], references: [id])
+  shop   Shop   @relation(fields: [shopId], references: [id])
+
+  @@unique([barberId, dayOfWeek])
+  @@map("staff_schedules")
+}
+
+model StaffPerformance {
+  id              String   @id @default(uuid())
+  barberId        String
+  shopId          String
+  date            DateTime @db.Date
+  bookingsCount   Int      @default(0)
+  completedCount  Int      @default(0)
+  noShowCount     Int      @default(0)
+  totalRevenue    Float    @default(0)
+  avgRating       Float?
+  avgServiceMins  Float?
+
+  barber Barber @relation(fields: [barberId], references: [id])
+
+  @@unique([barberId, date])
+  @@index([barberId])
+  @@index([shopId])
+  @@map("staff_performance")
+}
+
+// ─── Inventory ───────────────────────────────────────────────────────────────
+
+model InventoryItem {
+  id              String        @id @default(uuid())
+  shopId          String
+  name            String
+  category        String
+  unit            InventoryUnit @default(PIECE)
+  currentStock    Float         @default(0)
+  minimumStock    Float         @default(5)
+  costPerUnit     Float?
+  supplierId      String?
+  isActive        Boolean       @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  shop      Shop              @relation(fields: [shopId], references: [id])
+  supplier  Supplier?         @relation(fields: [supplierId], references: [id])
+  movements InventoryMovement[]
+
+  @@index([shopId])
+  @@map("inventory_items")
+}
+
+model InventoryMovement {
+  id          String @id @default(uuid())
+  itemId      String
+  type        String // IN | OUT | ADJUSTMENT
+  quantity    Float
+  notes       String?
+  createdById String?
+
+  createdAt DateTime @default(now())
+
+  item InventoryItem @relation(fields: [itemId], references: [id])
+
+  @@index([itemId])
+  @@map("inventory_movements")
+}
+
+model Supplier {
+  id        String  @id @default(uuid())
+  name      String
+  phone     String?
+  email     String?
+  address   String?
+  isActive  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items InventoryItem[]
+
+  @@map("suppliers")
+}
+
+// ─── AI / Forecasting ────────────────────────────────────────────────────────
+
+model Forecast {
+  id          String   @id @default(uuid())
+  shopId      String
+  forecastDate DateTime @db.Date
+  period      String   // DAILY | WEEKLY | MONTHLY
+  metric      String   // BOOKINGS | REVENUE | QUEUE_LENGTH
+  predictedValue Float
+  actualValue    Float?
+  confidence     Float?
+  modelVersion   String?
+
+  createdAt DateTime @default(now())
+
+  shop Shop @relation(fields: [shopId], references: [id])
+
+  @@unique([shopId, forecastDate, period, metric])
+  @@index([shopId])
+  @@map("forecasts")
+}
+
+model AIInsight {
+  id        String  @id @default(uuid())
+  shopId    String
+  type      String  // CHURN_RISK | HIGH_VALUE | PEAK_HOURS | NO_SHOW_RISK
+  title     String
+  body      String
+  data      Json?
+  isRead    Boolean @default(false)
+  priority  String  @default("MEDIUM") // LOW | MEDIUM | HIGH
+
+  createdAt DateTime @default(now())
+
+  shop Shop @relation(fields: [shopId], references: [id])
+
+  @@index([shopId])
+  @@map("ai_insights")
+}
