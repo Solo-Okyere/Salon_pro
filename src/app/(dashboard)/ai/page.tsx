@@ -85,7 +85,7 @@ export default function AIPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold">AI Business Intelligence</h1>
-            <p className="text-white/40 text-sm">Powered by SalonPro AI</p>
+            <p className="text-white/60 text-sm">Powered by SalonPro AI</p>
           </div>
         </div>
 
@@ -185,7 +185,7 @@ export default function AIPage() {
                   ].map((m) => (
                     <div key={m.label} className="bg-[#111] border border-white/10 rounded-xl p-4 text-center">
                       <p className={cn("text-2xl font-bold", m.color)}>{m.value}</p>
-                      <p className="text-xs text-white/40">{m.label}</p>
+                      <p className="text-xs text-white/60">{m.label}</p>
                     </div>
                   ))}
                 </div>
@@ -199,7 +199,7 @@ export default function AIPage() {
                           insight.priority === "MEDIUM" ? "bg-yellow-500/5 border-yellow-500/20" : "bg-white/5 border-white/10")}>
                         <div className="flex items-center gap-2 mb-1">
                           <AlertTriangle className={cn("w-4 h-4",
-                            insight.priority === "HIGH" ? "text-red-400" : insight.priority === "MEDIUM" ? "text-yellow-400" : "text-white/40")} />
+                            insight.priority === "HIGH" ? "text-red-400" : insight.priority === "MEDIUM" ? "text-yellow-400" : "text-white/50")} />
                           <span className="font-semibold text-sm">{insight.title}</span>
                         </div>
                         <p className="text-sm text-white/60">{insight.body}</p>
@@ -224,11 +224,11 @@ export default function AIPage() {
                         <div key={c.id} className={cn("flex items-center justify-between p-4", i > 0 && "border-t border-white/5")}>
                           <div>
                             <p className="font-medium text-sm">{c.name}</p>
-                            <p className="text-xs text-white/40">{c.phone} · {c.totalVisits} visits · GHS {c.totalSpent.toFixed(0)} spent</p>
+                            <p className="text-xs text-white/60">{c.phone} · {c.totalVisits} visits · GHS {c.totalSpent.toFixed(0)} spent</p>
                           </div>
                           <div className="flex items-center gap-3 text-right">
                             <div>
-                              <p className="text-xs text-white/40">{c.lastVisitDays === 999 ? "Never" : `${c.lastVisitDays}d ago`}</p>
+                              <p className="text-xs text-white/60">{c.lastVisitDays === 999 ? "Never" : `${c.lastVisitDays}d ago`}</p>
                               <span className={cn("text-xs px-2 py-0.5 rounded-full border", RISK_COLOR[c.riskLevel])}>
                                 {c.riskLevel}
                               </span>

@@ -11,9 +11,9 @@
   --color-primary:                 #d4a017;
   --color-primary-foreground:      #000000;
   --color-secondary:               rgba(255,255,255,0.07);
-  --color-secondary-foreground:    rgba(255,255,255,0.6);
+  --color-secondary-foreground:    rgba(255,255,255,0.75);
   --color-muted:                   rgba(255,255,255,0.05);
-  --color-muted-foreground:        rgba(255,255,255,0.4);
+  --color-muted-foreground:        rgba(255,255,255,0.6);
   --color-accent:                  rgba(212,160,23,0.1);
   --color-accent-foreground:       #f5c842;
   --color-border:                  rgba(255,255,255,0.08);
@@ -42,6 +42,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
+  color-scheme: dark;
 }
 
 body {
@@ -106,13 +107,13 @@ body {
 
 /* Input on dark glass */
 .glass-input {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
   color: #f0f0f8;
   transition: border-color 0.15s, box-shadow 0.15s;
   outline: none;
 }
-.glass-input::placeholder { color: rgba(255,255,255,0.25); }
+.glass-input::placeholder { color: rgba(255,255,255,0.3); }
 .glass-input:focus {
   border-color: rgba(212,160,23,0.55);
   box-shadow: 0 0 0 3px rgba(212,160,23,0.12);
@@ -191,16 +192,83 @@ body {
 
 /* ── Input base (glass variant) ──────────────────────────────────────────── */
 .input-base {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
   color: #f0f0f8;
   transition: border-color 0.15s, box-shadow 0.15s;
   outline: none;
 }
-.input-base::placeholder { color: rgba(255,255,255,0.25); }
+.input-base::placeholder { color: rgba(255,255,255,0.3); }
 .input-base:focus {
   border-color: rgba(212,160,23,0.55);
   box-shadow: 0 0 0 3px rgba(212,160,23,0.12);
+}
+
+/* ── Accessible dropdown/select styling ─────────────────────────────────── */
+.select-base {
+  appearance: none;
+  background-color: #ffffff;
+  color: #111827;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23111827' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.select-base::placeholder { color: #6b7280; }
+.select-base:focus {
+  border-color: #d4a017;
+  box-shadow: 0 0 0 3px rgba(212,160,23,0.18);
+  outline: none;
+}
+.select-base:disabled {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.select-base option {
+  background-color: #ffffff;
+  color: #111827;
+}
+.select-base option:checked,
+.select-base option:hover,
+.select-base option:focus {
+  background: #fef3c7;
+  color: #111827;
+}
+
+.dark .select-base,
+.dark select.select-base {
+  background-color: #111827;
+  color: #f9fafb;
+  border-color: #374151;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23f9fafb' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+}
+.dark .select-base::placeholder { color: #9ca3af; }
+.dark .select-base:focus {
+  border-color: #d4a017;
+  box-shadow: 0 0 0 3px rgba(212,160,23,0.2);
+}
+.dark .select-base:disabled {
+  background-color: #1f2937;
+  color: #9ca3af;
+  border-color: #374151;
+}
+.dark .select-base option {
+  background-color: #111827;
+  color: #f9fafb;
+}
+.dark .select-base option:checked,
+.dark .select-base option:hover,
+.dark .select-base option:focus {
+  background: #1f2937;
+  color: #ffffff;
 }
 
 /* ── Status badges ────────────────────────────────────────────────────────── */

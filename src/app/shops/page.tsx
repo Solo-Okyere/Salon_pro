@@ -84,22 +84,22 @@ function ShopCard({ shop, index }: { shop: Shop; index: number }) {
             {shop.name}
           </h3>
 
-          <div className="flex items-center gap-1.5 text-xs text-white/40 mb-3">
+          <div className="flex items-center gap-1.5 text-xs text-white/60 mb-3">
             <MapPin className="w-3 h-3 shrink-0" />
             <span className="truncate">{shop.city}, {shop.region}</span>
           </div>
 
           <div className="flex items-center gap-3 flex-wrap mb-3">
-            <span className="flex items-center gap-1 text-xs text-white/50">
+            <span className="flex items-center gap-1 text-xs text-white/70">
               <Users className="w-3 h-3" /> {shop.barbers.length} barber{shop.barbers.length !== 1 ? "s" : ""}
             </span>
             {shop._count.reviews > 0 && (
-              <span className="flex items-center gap-1 text-xs text-white/50">
+              <span className="flex items-center gap-1 text-xs text-white/70">
                 <Star className="w-3 h-3 fill-[#d4a017] text-[#d4a017]" /> {shop._count.reviews}
               </span>
             )}
             {minPrice !== null && (
-              <span className="text-xs text-white/50">From GHS {minPrice}</span>
+              <span className="text-xs text-white/70">From GHS {minPrice}</span>
             )}
           </div>
 
@@ -113,7 +113,7 @@ function ShopCard({ shop, index }: { shop: Shop; index: number }) {
                 </span>
               ))}
               {shop.services.length > 2 && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full text-white/25"
+                <span className="text-[10px] px-2 py-0.5 rounded-full text-white/40"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
                   +{shop.services.length - 2}
                 </span>
@@ -123,7 +123,7 @@ function ShopCard({ shop, index }: { shop: Shop; index: number }) {
 
           <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
             {shop.phone && (
-              <span className="flex items-center gap-1 text-xs text-white/25">
+              <span className="flex items-center gap-1 text-xs text-white/50">
                 <Phone className="w-3 h-3" /> {shop.phone}
               </span>
             )}
@@ -196,13 +196,13 @@ export default function ShopsPage() {
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4">
             Book your <span className="text-gradient">perfect cut</span>
           </h1>
-          <p className="text-white/40 text-lg max-w-md mx-auto mb-8">
+          <p className="text-white/60 text-lg max-w-md mx-auto mb-8">
             Browse verified barbershops near you. Book online or join the virtual queue.
           </p>
 
           {/* Glass search */}
           <div className="relative max-w-md mx-auto">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
@@ -228,18 +228,18 @@ export default function ShopsPage() {
             className="text-center py-24"
           >
             <Scissors className="w-12 h-12 mx-auto mb-4 text-white/10" />
-            <p className="text-white/40 font-medium">No shops found</p>
-            <p className="text-white/20 text-sm mt-1">
+              <p className="text-white/50 font-medium">No shops found</p>
+              <p className="text-white/50 text-sm mt-1">
               {search ? "Try a different search term" : "No shops have been registered yet"}
             </p>
           </motion.div>
         ) : (
           <>
             <div className="flex items-center justify-between mb-6">
-              <p className="text-sm text-white/30">
+              <p className="text-sm text-white/50">
                 {filtered.length} shop{filtered.length !== 1 ? "s" : ""} found
               </p>
-              <div className="flex items-center gap-1.5 text-xs text-white/25">
+                <div className="flex items-center gap-1.5 text-xs text-white/40">
                 <Clock className="w-3 h-3" /> Live
               </div>
             </div>

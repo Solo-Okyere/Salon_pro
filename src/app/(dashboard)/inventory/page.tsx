@@ -85,7 +85,7 @@ export default function InventoryPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Inventory</h1>
-            <p className="text-white/40 text-sm mt-1">{items?.length ?? 0} items · {lowStockCount} low stock</p>
+            <p className="text-white/60 text-sm mt-1">{items?.length ?? 0} items · {lowStockCount} low stock</p>
           </div>
           <button onClick={() => setShowAdd(true)}
             className="flex items-center gap-2 bg-[#d4a017] hover:bg-[#b8860b] text-black font-semibold px-4 py-2 rounded-xl transition-colors text-sm">
@@ -125,18 +125,18 @@ export default function InventoryPage() {
               return (
                 <motion.div key={item.id} layout
                   className="bg-[#111] border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-colors">
-                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-start justify-between mb-3">
                     <div>
                       <p className="font-semibold">{item.name}</p>
-                      <p className="text-xs text-white/40">{item.category} · {item.unit}</p>
-                      {item.supplier && <p className="text-xs text-white/30 mt-0.5">Supplier: {item.supplier.name}</p>}
+                      <p className="text-xs text-white/60">{item.category} · {item.unit}</p>
+                      {item.supplier && <p className="text-xs text-white/50 mt-0.5">Supplier: {item.supplier.name}</p>}
                     </div>
                     <span className={cn("text-xs px-2 py-1 rounded-full font-medium", level.color, level.bg)}>{level.label}</span>
                   </div>
 
                   {/* Stock Bar */}
                   <div className="mb-3">
-                    <div className="flex justify-between text-xs text-white/40 mb-1">
+                    <div className="flex justify-between text-xs text-white/60 mb-1">
                       <span>Stock: <strong className="text-white">{item.currentStock}</strong></span>
                       <span>Min: {item.minimumStock}</span>
                     </div>
@@ -149,7 +149,7 @@ export default function InventoryPage() {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-white/40">
+                    <span className="text-sm text-white/60">
                       {item.costPerUnit ? `GHS ${item.costPerUnit}/unit` : "No cost set"}
                     </span>
                     <div className="flex gap-2">
@@ -186,7 +186,7 @@ export default function InventoryPage() {
                     <X className="w-4 h-4" />
                   </button>
                 </div>
-                <p className="text-sm text-white/40 mb-4">Current stock: <strong className="text-white">{moveItem.currentStock} {moveItem.unit}s</strong></p>
+                <p className="text-sm text-white/60 mb-4">Current stock: <strong className="text-white">{moveItem.currentStock} {moveItem.unit}s</strong></p>
                 <div className="space-y-3">
                   <div>
                     <label className="text-sm text-white/50 block mb-1">{moveType === "ADJUSTMENT" ? "New Stock Level" : "Quantity"}</label>
@@ -234,13 +234,14 @@ export default function InventoryPage() {
                       {type === "select" ? (
                         <select value={form[key as keyof typeof form]}
                           onChange={(e) => setForm((f) => ({ ...f, [key]: e.target.value }))}
-                          className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-[#d4a017] transition-colors">
+                          className="select-base w-full rounded-xl px-4 py-3 bg-white text-gray-900 dark:bg-[#111827] dark:text-white">
+                          <option value="" className="text-gray-500">Select category</option>
                           {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
                         </select>
                       ) : type === "select-unit" ? (
                         <select value={form[key as keyof typeof form]}
                           onChange={(e) => setForm((f) => ({ ...f, [key]: e.target.value }))}
-                          className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-[#d4a017] transition-colors">
+                          className="select-base w-full rounded-xl px-4 py-3 bg-white text-gray-900 dark:bg-[#111827] dark:text-white">
                           {["PIECE", "BOTTLE", "BOX", "SET"].map((u) => <option key={u} value={u}>{u}</option>)}
                         </select>
                       ) : (

@@ -84,7 +84,7 @@ export default function LoginPage() {
           transition={{ duration: 0.4 }}
           className="mb-8"
         >
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-white/30 hover:text-white/60 transition-colors">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white/80 transition-colors">
             <ArrowRight className="w-3.5 h-3.5 rotate-180" /> Back to home
           </Link>
         </motion.div>
@@ -122,7 +122,7 @@ export default function LoginPage() {
             className="mb-6"
           >
             <h1 className="text-2xl font-black tracking-tight mb-1.5">Staff login</h1>
-            <p className="text-white/35 text-sm">
+            <p className="text-white/60 text-sm">
               Enter your phone number and password to access your dashboard.
             </p>
           </motion.div>
@@ -137,9 +137,9 @@ export default function LoginPage() {
           >
             {/* Phone */}
             <div>
-              <label className="text-xs font-medium text-white/40 mb-1.5 block">Phone number</label>
+              <label className="text-xs font-medium text-white/60 mb-1.5 block">Phone number</label>
               <div className="relative">
-                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" />
+                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
                 <input
                   type="tel"
                   value={phone}
@@ -154,9 +154,9 @@ export default function LoginPage() {
 
             {/* Password */}
             <div>
-              <label className="text-xs font-medium text-white/40 mb-1.5 block">Password</label>
+              <label className="text-xs font-medium text-white/60 mb-1.5 block">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
                 <input
                   type={showPw ? "text" : "password"}
                   value={password}
@@ -170,7 +170,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPw((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
                   tabIndex={-1}
                 >
                   {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -203,7 +203,7 @@ export default function LoginPage() {
             transition={{ delay: 0.5 }}
             className="mt-6 pt-5 border-t border-white/5 text-center"
           >
-            <Link href="/admin/login" className="text-xs text-white/20 hover:text-white/40 transition-colors">
+            <Link href="/admin/login" className="text-xs text-white/40 hover:text-white/70 transition-colors">
               Platform admin? Access here →
             </Link>
           </motion.div>

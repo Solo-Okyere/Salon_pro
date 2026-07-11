@@ -143,8 +143,8 @@ export default function SettingsPage() {
             </div>
             <div>
               <label className="block text-xs font-medium text-muted-foreground mb-1.5">Region *</label>
-              <select value={form.region} onChange={set("region")} className="input-base w-full">
-                <option value="">Select region</option>
+              <select value={form.region} onChange={set("region")} className="select-base w-full bg-white text-gray-900 dark:bg-[#111827] dark:text-white">
+                <option value="" className="text-gray-500">Select region</option>
                 {GHANA_REGIONS.map((r) => (
                   <option key={r} value={r}>{r}</option>
                 ))}
@@ -161,7 +161,7 @@ export default function SettingsPage() {
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-muted-foreground mb-1.5">Opens at</label>
-              <select value={form.openTime} onChange={set("openTime")} className="input-base w-full">
+              <select value={form.openTime} onChange={set("openTime")} className="select-base w-full bg-white text-gray-900 dark:bg-[#111827] dark:text-white">
                 {HOURS.map((h) => (
                   <option key={h.value} value={h.value}>{h.label}</option>
                 ))}
@@ -169,7 +169,7 @@ export default function SettingsPage() {
             </div>
             <div>
               <label className="block text-xs font-medium text-muted-foreground mb-1.5">Closes at</label>
-              <select value={form.closeTime} onChange={set("closeTime")} className="input-base w-full">
+              <select value={form.closeTime} onChange={set("closeTime")} className="select-base w-full bg-white text-gray-900 dark:bg-[#111827] dark:text-white">
                 {HOURS.map((h) => (
                   <option key={h.value} value={h.value}>{h.label}</option>
                 ))}

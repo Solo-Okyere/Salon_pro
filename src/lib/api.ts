@@ -74,6 +74,8 @@ export const shopsAPI = {
 // Payments
 export const paymentsAPI = {
   initiate: (data: object) => api.post("/api/payments/initiate", data),
+  disburse: (data: object) => api.post("/api/payments/disburse", data),
+  balance: () => api.get("/api/payments/balance"),
   verify: (reference: string) => api.get(`/api/payments/verify/${reference}`),
   history: () => api.get("/api/payments/history"),
 };

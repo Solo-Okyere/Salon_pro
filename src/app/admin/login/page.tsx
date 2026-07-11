@@ -110,7 +110,7 @@ export default function AdminLoginPage() {
             className="text-center mb-8"
           >
             <h1 className="text-2xl font-black tracking-tight text-white mb-2">Super Admin</h1>
-            <p className="text-sm text-white/40">Restricted access — enter your platform access code</p>
+            <p className="text-sm text-white/60">Restricted access — enter your platform access code</p>
           </motion.div>
 
           <form onSubmit={submit} className="space-y-4">
@@ -119,7 +119,7 @@ export default function AdminLoginPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
             >
-              <label className="text-xs font-medium text-white/40 mb-2 block flex items-center gap-1.5">
+              <label className="text-xs font-medium text-white/60 mb-2 block flex items-center gap-1.5">
                 <Lock className="w-3 h-3" /> Access Code
               </label>
               <div className="relative">
@@ -135,7 +135,7 @@ export default function AdminLoginPage() {
                 <button
                   type="button"
                   onClick={() => setShow(s => !s)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
                 >
                   {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -171,7 +171,7 @@ export default function AdminLoginPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="mt-6 text-center text-xs text-white/15"
+            className="mt-6 text-center text-xs text-white/50"
           >
             SalonPro Platform · Restricted Access
           </motion.p>

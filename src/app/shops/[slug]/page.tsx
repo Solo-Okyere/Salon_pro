@@ -66,7 +66,7 @@ export default function ShopPage() {
   if (isError || !data?.success || !data.data) {
     return (
       <div className="min-h-screen bg-[#060608] flex flex-col items-center justify-center text-white gap-4">
-        <Scissors className="w-12 h-12 text-white/20" />
+        <Scissors className="w-12 h-12 text-white/40" />
         <h1 className="text-xl font-bold">Shop not found</h1>
         <Link href="/shops" className="text-sm text-[#d4a017] hover:underline">Browse all shops</Link>
       </div>
@@ -138,7 +138,7 @@ export default function ShopPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease }}
-          className="flex items-center gap-5 flex-wrap mb-6 text-sm text-white/40"
+          className="flex items-center gap-5 flex-wrap mb-6 text-sm text-white/50"
         >
           {shop.phone && <span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> {shop.phone}</span>}
           {avgRating && (
@@ -182,16 +182,16 @@ export default function ShopPage() {
             transition={{ duration: 0.5, delay: 0.12, ease }}
             className="glass-card p-5"
           >
-            <h2 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-4">Services</h2>
+            <h2 className="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Services</h2>
             {shop.services.length === 0 ? (
-              <p className="text-sm text-white/20">No services listed yet</p>
+              <p className="text-sm text-white/40">No services listed yet</p>
             ) : (
               <div className="space-y-0">
                 {shop.services.map((s, i) => (
                   <div key={s.id} className={`flex items-center justify-between py-3 ${i < shop.services.length - 1 ? "border-b border-white/[0.05]" : ""}`}>
                     <div>
                       <p className="text-sm font-medium text-white/80">{s.name}</p>
-                      <p className="text-xs text-white/30 flex items-center gap-1 mt-0.5">
+                      <p className="text-xs text-white/50 flex items-center gap-1 mt-0.5">
                         <Clock className="w-3 h-3" /> {s.duration} min
                       </p>
                     </div>
@@ -209,9 +209,9 @@ export default function ShopPage() {
             transition={{ duration: 0.5, delay: 0.16, ease }}
             className="glass-card p-5"
           >
-            <h2 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-4">Our Barbers</h2>
+            <h2 className="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Our Barbers</h2>
             {shop.barbers.length === 0 ? (
-              <p className="text-sm text-white/20">No barbers listed yet</p>
+              <p className="text-sm text-white/40">No barbers listed yet</p>
             ) : (
               <div className="space-y-3">
                 {shop.barbers.map(b => (
@@ -223,7 +223,7 @@ export default function ShopPage() {
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-white/80">{b.user.name}</p>
                       {b._count.reviews > 0 && (
-                        <p className="text-xs text-white/30 flex items-center gap-1">
+                        <p className="text-xs text-white/50 flex items-center gap-1">
                           <Star className="w-3 h-3 fill-[#d4a017] text-[#d4a017]" />
                           {b.rating?.toFixed(1) ?? "—"} · {b._count.reviews} reviews
                         </p>
@@ -244,7 +244,7 @@ export default function ShopPage() {
             transition={{ duration: 0.5, delay: 0.22, ease }}
             className="mt-5 glass-card p-5"
           >
-            <h2 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-4">
+            <h2 className="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">
               Reviews ({shop._count.reviews})
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -263,8 +263,8 @@ export default function ShopPage() {
                       {r.customer.name.slice(0, 2).toUpperCase()}
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-white/60">{r.customer.name}</p>
-                      <p className="text-[10px] text-white/25">{new Date(r.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p>
+                      <p className="text-xs font-semibold text-white/70">{r.customer.name}</p>
+                      <p className="text-[10px] text-white/40">{new Date(r.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p>
                     </div>
                   </div>
                 </div>
@@ -280,7 +280,7 @@ export default function ShopPage() {
           transition={{ duration: 0.5, delay: 0.28, ease }}
           className="mt-6 p-6 glass-card text-center"
         >
-          <p className="text-sm text-white/40 mb-4">Ready for your cut?</p>
+          <p className="text-sm text-white/60 mb-4">Ready for your cut?</p>
           <Link
             href={`/booking?shop=${shop.id}`}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-black transition-all hover:opacity-90 hover:-translate-y-0.5"

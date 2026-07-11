@@ -60,7 +60,7 @@ function StarRating({ value, onChange }: { value: number; onChange: (v: number) 
           onMouseLeave={() => setHover(0)}
           className="transition-transform hover:scale-110"
         >
-          <Star className={cn("w-7 h-7", (hover || value) >= s ? "text-[#d4a017] fill-[#d4a017]" : "text-white/20")} />
+          <Star className={cn("w-7 h-7", (hover || value) >= s ? "text-[#d4a017] fill-[#d4a017]" : "text-white/40")} />
         </button>
       ))}
     </div>
@@ -131,7 +131,7 @@ export default function CustomerDashboard() {
                   <X className="w-4 h-4" />
                 </button>
               </div>
-              <p className="text-white/50 text-sm mb-5">
+              <p className="text-white/60 text-sm mb-5">
                 {reviewBooking.service.name} at {reviewBooking.shop.name} · {reviewBooking.barber.user.name}
               </p>
               <div className="mb-4 flex justify-center">
@@ -162,7 +162,7 @@ export default function CustomerDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Welcome back, {user?.name?.split(" ")[0]} 👋</h1>
-            <p className="text-white/50 text-sm mt-1">Your barber dashboard</p>
+            <p className="text-white/60 text-sm mt-1">Your barber dashboard</p>
           </div>
           <Link href="/booking"
             className="flex items-center gap-2 bg-[#d4a017] hover:bg-[#b8860b] text-black font-semibold px-4 py-2 rounded-xl transition-colors text-sm">
@@ -180,14 +180,14 @@ export default function CustomerDashboard() {
                   <Trophy className={cn("w-5 h-5", TIER_COLORS[tier])} />
                   <span className={cn("text-sm font-semibold uppercase tracking-wider", TIER_COLORS[tier])}>{tier} Member</span>
                 </div>
-                <p className="text-3xl font-bold">{loyalty.account.points.toLocaleString()} <span className="text-base font-normal text-white/50">points</span></p>
-                <p className="text-sm text-white/50 mt-1">{loyalty.account.totalVisits} visits · {formatCurrency(loyalty.account.totalSpent)} spent</p>
+                <p className="text-3xl font-bold">{loyalty.account.points.toLocaleString()} <span className="text-base font-normal text-white/60">points</span></p>
+                <p className="text-sm text-white/60 mt-1">{loyalty.account.totalVisits} visits · {formatCurrency(loyalty.account.totalSpent)} spent</p>
               </div>
               <div className="text-right">
                 {tier !== "PLATINUM" && (
                   <>
-                    <p className="text-xs text-white/40">Next tier in</p>
-                    <p className="text-xl font-bold">{visitsToNext} <span className="text-sm font-normal text-white/50">visits</span></p>
+                    <p className="text-xs text-white/60">Next tier in</p>
+                    <p className="text-xl font-bold">{visitsToNext} <span className="text-sm font-normal text-white/60">visits</span></p>
                   </>
                 )}
                 {tier === "PLATINUM" && <Zap className="w-8 h-8 text-cyan-400" />}
@@ -217,9 +217,9 @@ export default function CustomerDashboard() {
               {[1, 2].map((i) => <div key={i} className="h-20 bg-white/5 rounded-xl animate-pulse" />)}
             </div>
           ) : upcoming.length === 0 ? (
-            <div className="bg-[#111] border border-white/10 rounded-2xl p-8 text-center">
-              <Scissors className="w-10 h-10 text-white/20 mx-auto mb-3" />
-              <p className="text-white/50">No upcoming appointments</p>
+              <div className="bg-[#111] border border-white/10 rounded-2xl p-8 text-center">
+                <Scissors className="w-10 h-10 text-white/40 mx-auto mb-3" />
+                <p className="text-white/60">No upcoming appointments</p>
               <Link href="/booking" className="mt-3 inline-block text-[#d4a017] text-sm hover:underline">Book a haircut →</Link>
             </div>
           ) : (
@@ -233,8 +233,8 @@ export default function CustomerDashboard() {
                     </div>
                     <div>
                       <p className="font-semibold">{b.service.name}</p>
-                      <p className="text-sm text-white/50">{b.shop.name} · {b.barber.user.name}</p>
-                      <div className="flex items-center gap-3 mt-1 text-xs text-white/40">
+                      <p className="text-sm text-white/60">{b.shop.name} · {b.barber.user.name}</p>
+                      <div className="flex items-center gap-3 mt-1 text-xs text-white/50">
                         <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{formatDate(b.scheduledAt)}</span>
                         <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{formatTime(b.scheduledAt)}</span>
                       </div>
@@ -256,14 +256,14 @@ export default function CustomerDashboard() {
         {past.length > 0 && (
           <div>
             <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-white/50" /> Recent History
+              <Clock className="w-5 h-5 text-white/60" /> Recent History
             </h2>
             <div className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden">
               {past.map((b, i) => (
                 <div key={b.id} className={cn("flex items-center justify-between p-4", i > 0 && "border-t border-white/5")}>
                   <div>
                     <p className="font-medium text-sm">{b.service.name}</p>
-                    <p className="text-xs text-white/40">{formatDate(b.scheduledAt)} · {b.shop.name}</p>
+                    <p className="text-xs text-white/60">{formatDate(b.scheduledAt)} · {b.shop.name}</p>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-semibold text-white/70">{formatCurrency(b.totalAmount)}</span>
@@ -274,7 +274,7 @@ export default function CustomerDashboard() {
                       <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full">No Show</span>
                     )}
                     {b.status === "CANCELLED" && (
-                      <span className="text-xs bg-white/10 text-white/40 px-2 py-0.5 rounded-full">Cancelled</span>
+                      <span className="text-xs bg-white/10 text-white/50 px-2 py-0.5 rounded-full">Cancelled</span>
                     )}
                     {b.status === "COMPLETED" && (
                       <button

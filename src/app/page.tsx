@@ -82,7 +82,7 @@ function DashMock() {
             <div className="w-3 h-3 rounded-full bg-green-500/70" />
           </div>
           <div className="flex-1 mx-4 h-5 bg-white/5 rounded-full" />
-          <div className="text-xs text-white/20">SalonPro Dashboard</div>
+              <div className="text-xs text-white/50">SalonPro Dashboard</div>
         </div>
 
         {/* Dashboard grid */}
@@ -97,7 +97,7 @@ function DashMock() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1 + i * 0.15, duration: 0.5 }}
               className="rounded-xl p-3 bg-white/5 border border-white/5">
-              <div className="text-xs text-white/40 mb-1">{m.label}</div>
+              <div className="text-xs text-white/60 mb-1">{m.label}</div>
               <div className="font-bold text-sm" style={{ color: m.color }}>{m.value}</div>
               <div className="text-xs mt-1 text-green-400">{m.trend}</div>
             </motion.div>
@@ -133,11 +133,11 @@ function DashMock() {
               className="flex items-center justify-between rounded-lg bg-white/[0.03] border border-white/5 px-3 py-2">
               <div>
                 <div className="text-xs font-semibold text-white/80">{row.name}</div>
-                <div className="text-xs text-white/30">{row.service}</div>
+                <div className="text-xs text-white/50">{row.service}</div>
               </div>
               <div className="text-right">
-                <div className="text-xs text-white/40">{row.wait}</div>
-                <span className={`text-xs px-1.5 py-0.5 rounded-full ${row.status === "Next" ? "bg-green-500/20 text-green-400" : "bg-white/5 text-white/30"}`}>
+                <div className="text-xs text-white/60">{row.wait}</div>
+                <span className={`text-xs px-1.5 py-0.5 rounded-full ${row.status === "Next" ? "bg-green-500/20 text-green-400" : "bg-white/5 text-white/50"}`}>
                   {row.status}
                 </span>
               </div>
@@ -188,7 +188,7 @@ function FeatureCard({ icon: Icon, title, desc, badge, delay = 0 }: {
       </motion.div>
 
       <h3 className="font-bold text-base mb-2 text-white">{title}</h3>
-      <p className="text-sm text-white/40 leading-relaxed">{desc}</p>
+      <p className="text-sm text-white/60 leading-relaxed">{desc}</p>
     </motion.div>
   );
 }
@@ -359,7 +359,7 @@ export default function LandingPage() {
               transition={{ duration: 0.9, ease: easeOut, delay: 0.2 }}
               className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9]"
             >
-              <span className="text-white/90">Cut More.</span>
+              <span               className="text-white/90">Cut More.</span>
             </motion.h1>
           </div>
           <div className="overflow-hidden mb-10">
@@ -369,7 +369,7 @@ export default function LandingPage() {
               transition={{ duration: 0.9, ease: easeOut, delay: 0.3 }}
               className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9]"
             >
-              <span className="text-white/40">Earn More.</span>
+              <span               className="text-white/70">Earn More.</span>
             </motion.h1>
           </div>
 
@@ -378,7 +378,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-lg md:text-xl text-white/40 max-w-xl mx-auto mb-10 leading-relaxed"
+            className="text-lg md:text-xl text-white/60 max-w-xl mx-auto mb-10 leading-relaxed"
           >
             Virtual queues · WhatsApp automation · Mobile Money payments ·<br className="hidden md:block" />
             AI forecasting — one platform for your entire barbershop.
@@ -419,7 +419,7 @@ export default function LandingPage() {
                 <div className="text-3xl md:text-4xl font-black text-gradient">
                   <Counter to={s.to} suffix={s.suffix} />
                 </div>
-                <div className="text-xs text-white/30 mt-1 font-medium tracking-wide uppercase">{s.label}</div>
+                <div className="text-xs text-white/50 mt-1 font-medium tracking-wide uppercase">{s.label}</div>
               </div>
             ))}
           </motion.div>
@@ -442,7 +442,7 @@ export default function LandingPage() {
           {[...Array(2)].map((_, repeat) => (
             <div key={repeat} className="flex items-center gap-12 pr-12">
               {["MTN MoMo", "Telecel Cash", "AT Money", "WhatsApp Business", "Supabase", "AI Forecasting", "300+ Shops", "Made in Ghana"].map((item) => (
-                <span key={item} className="text-sm text-white/20 font-semibold whitespace-nowrap flex items-center gap-2">
+                <span key={item} className="text-sm text-white/50 font-semibold whitespace-nowrap flex items-center gap-2">
                   <span className="w-1 h-1 rounded-full bg-[#d4a017] inline-block" />
                   {item}
                 </span>
@@ -498,9 +498,9 @@ export default function LandingPage() {
             className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-tight">
             Your shop loses <span className="text-gradient">GHS 3,000+</span><br />every month to avoidable problems
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-white/40 text-lg max-w-2xl mx-auto">
-            Without a system, every Ghanaian barber shop faces the same six costly problems.
-          </motion.p>
+            <motion.p variants={fadeUp} className="text-white/60 text-lg max-w-2xl mx-auto">
+             Without a system, every Ghanaian barber shop faces the same six costly problems.
+           </motion.p>
         </motion.div>
 
         <motion.div
@@ -538,9 +538,9 @@ export default function LandingPage() {
               className="text-4xl md:text-6xl font-black tracking-tighter mb-4">
               One platform.<br /><span className="text-gradient">Everything solved.</span>
             </motion.h2>
-            <motion.p variants={fadeUp} className="text-white/40 text-lg max-w-2xl mx-auto">
-              14 modules working together so your shop runs like a premium operation.
-            </motion.p>
+            <motion.p variants={fadeUp} className="text-white/60 text-lg max-w-2xl mx-auto">
+             Without a system, every Ghanaian barber shop faces the same six costly problems.
+           </motion.p>
           </motion.div>
 
           <motion.div
@@ -591,7 +591,7 @@ export default function LandingPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-base mb-1 group-hover:text-[#d4a017] transition-colors">{s.title}</h3>
-                  <p className="text-sm text-white/40 leading-relaxed">{s.desc}</p>
+                  <p className="text-sm text-white/60 leading-relaxed">{s.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -613,9 +613,9 @@ export default function LandingPage() {
             <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black tracking-tighter mb-4">
               Simple pricing
             </motion.h2>
-            <motion.p variants={fadeUp} className="text-white/40 text-lg">
-              Start free. No credit card. Scale when you grow.
-            </motion.p>
+            <motion.p variants={fadeUp} className="text-white/60 text-lg">
+             Start free. No credit card. Scale when you grow.
+           </motion.p>
           </motion.div>
 
           <motion.div
@@ -655,12 +655,12 @@ export default function LandingPage() {
                   </>
                 )}
                 <div className="mb-6 relative">
-                  <p className="text-white/40 text-sm mb-2">{plan.name}</p>
+                  <p className="text-white/60 text-sm mb-2">{plan.name}</p>
                   <div className="flex items-baseline gap-1 mb-1">
                     <span className="text-4xl font-black">{plan.price}</span>
-                    {plan.period && <span className="text-white/40 text-sm">{plan.period}</span>}
+                    {plan.period && <span className="text-white/60 text-sm">{plan.period}</span>}
                   </div>
-                  <p className="text-xs text-white/30">{plan.desc}</p>
+                  <p className="text-xs text-white/50">{plan.desc}</p>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((f) => (
@@ -695,87 +695,12 @@ export default function LandingPage() {
           variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
           className="text-center mb-16"
         >
-          <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black tracking-tighter mb-4">
-            Barbers love <span className="text-gradient">SalonPro</span>
-          </motion.h2>
-          <motion.p variants={fadeUp} className="text-white/40 text-lg">Real results from real shops across Ghana.</motion.p>
-        </motion.div>
-
-        <motion.div
-          initial="hidden" whileInView="visible" viewport={{ once: true }}
-          variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
-          className="grid md:grid-cols-3 gap-5"
-        >
-          {[
-            { name: "Kwame A.", role: "Shop Owner, Accra", avatar: "KA", text: "My no-shows dropped from 6 per day to 1. The deposit system changed everything. I'm making GHS 2,000 more every month.", stars: 5 },
-            { name: "Isaac B.", role: "Master Barber, Kumasi", avatar: "IB", text: "I know exactly who's coming in and when. No more chaos at the door. My customers love the WhatsApp reminders.", stars: 5 },
-            { name: "Emmanuel T.", role: "Shop Owner, Takoradi", avatar: "ET", text: "The AI predicted my busiest week of the year. I hired an extra barber just in time. That's GHS 8,000 I would have missed.", stars: 5 },
-          ].map((t, i) => (
-            <motion.div key={t.name} custom={i} variants={fadeUp}
-              className="p-6 glass-card relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-[60px] pointer-events-none opacity-30"
-                style={{ background: "#d4a017" }} />
-              <div className="flex gap-1 mb-4">
-                {[...Array(t.stars)].map((_, j) => (
-                  <Star key={j} className="w-4 h-4 fill-[#d4a017] text-[#d4a017]" />
-                ))}
-              </div>
-              <p className="text-sm text-white/60 leading-relaxed mb-6 relative">&ldquo;{t.text}&rdquo;</p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-black"
-                  style={{ background: "linear-gradient(135deg, #d4a017, #f5c842)" }}>
-                  {t.avatar}
-                </div>
-                <div>
-                  <div className="font-bold text-sm">{t.name}</div>
-                  <div className="text-xs text-white/30">{t.role}</div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* ── FAQ ─────────────────────────────────────────────────────────────── */}
-      <section id="faq" className="py-32 px-4 md:px-10">
-        <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial="hidden" whileInView="visible" viewport={{ once: true }}
-            variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
-            className="text-center mb-16"
-          >
-            <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black tracking-tighter">
-              Common questions
+            <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black tracking-tighter mb-4">
+              One platform.<br /><span className="text-gradient">Everything solved.</span>
             </motion.h2>
-          </motion.div>
-          <FAQ />
-        </div>
-      </section>
-
-      {/* ── CTA ─────────────────────────────────────────────────────────────── */}
-      <section className="py-32 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" />
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse at 50% 100%, rgba(212,160,23,0.08) 0%, transparent 60%)" }} />
-
-        <motion.div
-          initial="hidden" whileInView="visible" viewport={{ once: true }}
-          variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
-          className="max-w-3xl mx-auto text-center relative"
-        >
-          <motion.div variants={fadeUp}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 text-xs font-bold uppercase tracking-widest"
-            style={{ background: "rgba(212,160,23,0.08)", border: "1px solid rgba(212,160,23,0.15)", color: "#d4a017" }}>
-            <Shield className="w-3 h-3" /> No credit card required
-          </motion.div>
-          <motion.h2 variants={fadeUp}
-            className="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-[0.95]">
-            Ready to modernize<br /><span className="text-gradient">your shop?</span>
-          </motion.h2>
-          <motion.p variants={fadeUp} className="text-lg text-white/40 mb-10 leading-relaxed">
-            Join hundreds of Ghanaian barber shops already running on SalonPro.<br />
-            Start free — upgrade when you're ready.
-          </motion.p>
+            <motion.p variants={fadeUp} className="text-white/60 text-lg max-w-2xl mx-auto">
+              14 modules working together so your shop runs like a premium operation.
+            </motion.p>
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/shops"
               className="btn-gold w-full sm:w-auto px-10 py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-2 group">
@@ -783,7 +708,7 @@ export default function LandingPage() {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
-          <motion.div variants={fadeUp} className="mt-8 flex items-center justify-center gap-6 text-sm text-white/25">
+            <motion.div variants={fadeUp} className="mt-8 flex items-center justify-center gap-6 text-sm text-white/50">
             <span className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-[#d4a017]" /> Free forever plan</span>
             <span className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-[#d4a017]" /> Setup in 5 min</span>
             <span className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-[#d4a017]" /> Cancel anytime</span>
@@ -800,11 +725,11 @@ export default function LandingPage() {
             </div>
             <span className="font-extrabold tracking-tight">SalonPro</span>
           </div>
-          <div className="flex items-center gap-2 text-xs text-white/20">
+          <div className="flex items-center gap-2 text-xs text-white/50">
             <Globe className="w-3 h-3" />
             <span>Built for Ghana · Scaling across Africa · © 2025</span>
           </div>
-          <div className="flex items-center gap-5 text-xs text-white/30">
+          <div className="flex items-center gap-5 text-xs text-white/50">
             {["Privacy", "Terms", "Contact"].map((l) => (
               <a key={l} href="#" className="hover:text-white transition-colors">{l}</a>
             ))}
@@ -843,9 +768,9 @@ function FAQ() {
             className="w-full flex items-center justify-between px-6 py-5 text-left"
           >
             <span className="font-semibold text-sm text-white/80">{item.q}</span>
-            <motion.span animate={{ rotate: open === i ? 45 : 0 }} transition={{ duration: 0.2 }}>
-              <ChevronRight className="w-4 h-4 text-white/30" />
-            </motion.span>
+              <motion.span animate={{ rotate: open === i ? 45 : 0 }} transition={{ duration: 0.2 }}>
+                <ChevronRight className="w-4 h-4 text-white/50" />
+              </motion.span>
           </button>
           <AnimatePresence>
             {open === i && (
@@ -855,7 +780,7 @@ function FAQ() {
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease: easeOut }}
               >
-                <p className="px-6 pb-5 text-sm text-white/40 leading-relaxed border-t border-white/5 pt-4">{item.a}</p>
+                <p className="px-6 pb-5 text-sm text-white/60 leading-relaxed border-t border-white/5 pt-4">{item.a}</p>
               </motion.div>
             )}
           </AnimatePresence>

@@ -66,3 +66,17 @@ export const paymentSchema = z.object({
   provider: z.enum(["MTN_MOMO", "TELECEL_CASH", "AT_MONEY"]),
   phoneNumber: phoneSchema,
 });
+
+export const disbursementRecipientSchema = z.object({
+  name: z.string().min(2, "Recipient name must be at least 2 characters"),
+  phoneNumber: phoneSchema,
+  amount: z.number().positive(),
+  network: z.enum(["MTN", "TELECEL", "AT"]).default("MTN"),
+  externalRef: z.string().min(1).optional(),
+});
+
+export const disbursementSchema = z.object({
+  recipients: z.array(disbursementRecipientSchema).min(1, "At least one recipient is required"),
+  currency: z.string().default("GHS"),
+  reference: z.string().optional(),
+});

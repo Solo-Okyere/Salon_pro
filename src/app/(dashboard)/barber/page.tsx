@@ -214,7 +214,7 @@ export default function BarberDashboard() {
       <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold">Hey, {d?.barber.name} ✂️</h1>
-          <p className="text-muted-foreground text-sm">{d?.barber.shop.name}</p>
+          <p className="text-white/60 text-sm">{d?.barber.shop.name}</p>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
 
@@ -225,7 +225,7 @@ export default function BarberDashboard() {
               "flex items-center gap-2 px-3 py-1.5 rounded-xl border text-sm font-semibold transition-all",
               soundOn
                 ? "border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
-                : "border-white/10 bg-secondary text-muted-foreground hover:bg-secondary/80"
+                : "border-white/10 bg-secondary text-white/50 hover:bg-secondary/80"
             )}
             title={soundOn ? "Mute queue alerts" : "Enable queue alerts (tap once to allow sound)"}
           >
@@ -241,7 +241,7 @@ export default function BarberDashboard() {
               "flex items-center gap-2 px-3 py-1.5 rounded-xl border text-sm font-semibold transition-all",
               isAvailable
                 ? "border-green-500/40 bg-green-500/10 text-green-400 hover:bg-green-500/20"
-                : "border-white/10 bg-secondary text-muted-foreground hover:bg-secondary/80"
+                : "border-white/10 bg-secondary text-white/50 hover:bg-secondary/80"
             )}
           >
             {isAvailable ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
@@ -272,12 +272,12 @@ export default function BarberDashboard() {
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               Live Queue
               {shopId && (
-                <span className="text-[10px] font-normal text-muted-foreground border border-green-500/30 px-1.5 py-0.5 rounded-full bg-green-500/5">
+                <span className="text-[10px] font-normal text-white/60 border border-green-500/30 px-1.5 py-0.5 rounded-full bg-green-500/5">
                   LIVE
                 </span>
               )}
             </h2>
-            <span className="text-xs text-muted-foreground">{d?.queue.length ?? 0} waiting</span>
+            <span className="text-xs text-white/60">{d?.queue.length ?? 0} waiting</span>
           </div>
 
           <div className="space-y-2">
@@ -322,7 +322,7 @@ export default function BarberDashboard() {
                       {/* Customer info */}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold truncate">{entry.customer.name}</p>
-                        <p className="text-xs text-muted-foreground truncate">
+                        <p className="text-xs text-white/60 truncate">
                           {entry.service?.name ?? "General"}
                         </p>
                       </div>
@@ -366,7 +366,7 @@ export default function BarberDashboard() {
                           className="p-1.5 rounded-lg hover:bg-secondary transition-colors"
                           title="Call customer"
                         >
-                          <Phone className="w-3.5 h-3.5 text-muted-foreground" />
+                          <Phone className="w-3.5 h-3.5 text-white/60" />
                         </a>
                       </div>
                     </div>
@@ -378,7 +378,7 @@ export default function BarberDashboard() {
             {(!d?.queue || d.queue.length === 0) && (
               <div className="text-center py-10">
                 <Scissors className="w-8 h-8 mx-auto mb-2 text-border" />
-                <p className="text-muted-foreground text-sm">Queue is empty</p>
+                <p className="text-white/60 text-sm">Queue is empty</p>
               </div>
             )}
           </div>
@@ -401,7 +401,7 @@ export default function BarberDashboard() {
                   <Avatar name={booking.customer.name} size={9} />
                   <div>
                     <p className="text-sm font-medium">{booking.customer.name}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-white/60">
                       {booking.service.name} · {formatTime(booking.scheduledAt)}
                     </p>
                   </div>
@@ -424,7 +424,7 @@ export default function BarberDashboard() {
               </motion.div>
             ))}
             {(!d?.today.bookings || d.today.bookings.length === 0) && (
-              <p className="text-center text-muted-foreground text-sm py-8">No bookings today</p>
+                <p className="text-center text-white/60 text-sm py-8">No bookings today</p>
             )}
           </div>
         </div>
@@ -443,12 +443,12 @@ export default function BarberDashboard() {
                   <Avatar name={b.customer.name} size={9} />
                   <div>
                     <p className="text-sm font-medium">{b.customer.name}</p>
-                    <p className="text-xs text-muted-foreground">{b.service.name} · {b.service.durationMinutes}min</p>
+                    <p className="text-xs text-white/60">{b.service.name} · {b.service.durationMinutes}min</p>
                   </div>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-semibold">{formatTime(b.scheduledAt)}</p>
-                  <p className="text-xs text-muted-foreground">{formatDate(b.scheduledAt)}</p>
+                  <p className="text-xs text-white/60">{formatDate(b.scheduledAt)}</p>
                 </div>
               </div>
             ))}

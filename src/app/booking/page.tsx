@@ -153,7 +153,7 @@ export default function BookingPage() {
               { label: "Time", value: dt.toLocaleTimeString("en", { hour: "2-digit", minute: "2-digit" }) },
             ].map(({ label, value }) => (
               <div key={label} className="flex items-center justify-between py-2 border-b border-white/5">
-                <span className="text-white/40 text-sm">{label}</span>
+                <span className="text-white/60 text-sm">{label}</span>
                 <span className="font-medium text-sm">{value}</span>
               </div>
             ))}
@@ -195,7 +195,7 @@ export default function BookingPage() {
           </button>
           <div>
             <h1 className="text-xl font-bold">Book Appointment</h1>
-            <p className="text-sm text-white/40">{STEPS[step]}</p>
+            <p className="text-sm text-white/60">{STEPS[step]}</p>
           </div>
         </div>
 
@@ -222,7 +222,7 @@ export default function BookingPage() {
                       </div>
                       <div>
                         <p className="font-semibold">{shop.name}</p>
-                        <p className="text-sm text-white/40">{shop.address}, {shop.city}</p>
+                        <p className="text-sm text-white/60">{shop.address}, {shop.city}</p>
                       </div>
                     </div>
                   </button>
@@ -243,7 +243,7 @@ export default function BookingPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-semibold">{s.name}</p>
-                        <p className="text-sm text-white/40">{s.durationMinutes} min</p>
+                        <p className="text-sm text-white/60">{s.durationMinutes} min</p>
                         {s.depositAmount > 0 && (
                           <p className="text-xs text-[#d4a017] mt-1">Deposit: {formatCurrency(s.depositAmount)}</p>
                         )}
@@ -271,7 +271,7 @@ export default function BookingPage() {
                       </div>
                       <div className="flex-1">
                         <p className="font-semibold">{b.user.name}</p>
-                        <p className="text-sm text-white/40">★ {b.rating.toFixed(1)}</p>
+                          <p className="text-sm text-white/60">★ {b.rating.toFixed(1)}</p>
                         {b.specialties.length > 0 && (
                           <div className="flex gap-1 mt-1 flex-wrap">
                             {b.specialties.slice(0, 3).map((sp) => (
@@ -401,7 +401,7 @@ export default function BookingPage() {
                   <div key={label} className={cn("flex items-center gap-4 p-4", i > 0 && "border-t border-white/5")}>
                     <Icon className="w-5 h-5 text-[#d4a017]" />
                     <div>
-                      <p className="text-xs text-white/40">{label}</p>
+                      <p className="text-xs text-white/60">{label}</p>
                       <p className="font-medium">{value}</p>
                     </div>
                   </div>
@@ -412,9 +412,9 @@ export default function BookingPage() {
               {isGuest && (
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-5 mb-6 space-y-4">
                   <p className="text-sm font-semibold text-white/70">Your contact details</p>
-                  <p className="text-xs text-white/40">We&apos;ll use this to track your booking. No account needed.</p>
+                  <p className="text-xs text-white/60">We&apos;ll use this to track your booking. No account needed.</p>
                   <div>
-                    <label className="text-xs text-white/40 block mb-1.5">Full name *</label>
+                    <label className="text-xs text-white/60 block mb-1.5">Full name *</label>
                     <input
                       type="text"
                       value={guestName}
@@ -424,7 +424,7 @@ export default function BookingPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-white/40 block mb-1.5 flex items-center gap-1.5">
+                    <label className="text-xs text-white/60 block mb-1.5 flex items-center gap-1.5">
                       <Phone className="w-3 h-3" /> Phone number *
                     </label>
                     <input

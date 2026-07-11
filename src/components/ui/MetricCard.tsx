@@ -115,8 +115,8 @@ export function MetricCard({
             className={cn(
               "flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full",
               trendUp
-                ? "bg-green-50 text-green-700"
-                : "bg-red-50 text-red-700"
+                ? "bg-green-500/15 text-green-400"
+                : "bg-red-500/15 text-red-400"
             )}
           >
             {trendUp ? (

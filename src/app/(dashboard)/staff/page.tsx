@@ -89,7 +89,7 @@ export default function StaffPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Staff Management</h1>
-            <p className="text-white/40 text-sm mt-1">{staff?.length ?? 0} barbers</p>
+            <p className="text-white/60 text-sm mt-1">{staff?.length ?? 0} barbers</p>
           </div>
           <button onClick={() => setShowAdd(true)}
             className="flex items-center gap-2 bg-[#d4a017] hover:bg-[#b8860b] text-black font-semibold px-4 py-2 rounded-xl transition-colors text-sm">
@@ -119,7 +119,7 @@ export default function StaffPage() {
                       </div>
                       <div>
                         <p className="font-semibold">{s.user.name}</p>
-                        <p className="text-sm text-white/40">{s.user.phone}</p>
+                        <p className="text-sm text-white/60">{s.user.phone}</p>
                         {s.specialties.length > 0 && (
                           <div className="flex gap-1 mt-1 flex-wrap">
                             {s.specialties.slice(0, 3).map((sp) => (
@@ -134,9 +134,9 @@ export default function StaffPage() {
                         <div className="flex items-center gap-1 text-sm">
                           <Star className="w-4 h-4 text-[#d4a017]" />
                           <span className="font-semibold">{s.rating.toFixed(1)}</span>
-                          <span className="text-white/40">({s.totalReviews})</span>
+                            <span className="text-white/60">({s.totalReviews})</span>
                         </div>
-                        <p className="text-xs text-white/40">7d: GHS {totalRev.toFixed(0)} · {totalCompleted} cuts</p>
+                        <p className="text-xs text-white/60">7d: GHS {totalRev.toFixed(0)} · {totalCompleted} cuts</p>
                       </div>
                       <button
                         onClick={(e) => { e.stopPropagation(); toggleMutation.mutate({ id: s.id, isAvailable: !s.isAvailable }); }}
@@ -144,7 +144,7 @@ export default function StaffPage() {
                           s.isAvailable ? "bg-green-500/20 text-green-400 hover:bg-green-500/30" : "bg-red-500/20 text-red-400 hover:bg-red-500/30")}>
                         {s.isAvailable ? "Available" : "Unavailable"}
                       </button>
-                      {expanded === s.id ? <ChevronUp className="w-4 h-4 text-white/40" /> : <ChevronDown className="w-4 h-4 text-white/40" />}
+                      {expanded === s.id ? <ChevronUp className="w-4 h-4 text-white/50" /> : <ChevronDown className="w-4 h-4 text-white/50" />}
                     </div>
                   </div>
 
@@ -164,14 +164,14 @@ export default function StaffPage() {
                               {DAYS.map((day, i) => {
                                 const sched = s.staffSchedules.find((sc) => sc.dayOfWeek === i);
                                 return (
-                                  <div key={day} className={cn("text-center p-2 rounded-lg text-xs", sched?.isWorking ? "bg-[#d4a017]/10 border border-[#d4a017]/20" : "bg-white/5 text-white/30")}>
+                                    <div key={day} className={cn("text-center p-2 rounded-lg text-xs", sched?.isWorking ? "bg-[#d4a017]/10 border border-[#d4a017]/20" : "bg-white/5 text-white/50")}>
                                     <p className="font-semibold">{day}</p>
                                     {sched?.isWorking ? (
                                       <>
                                         <p className="text-white/50">{sched.startTime}</p>
                                         <p className="text-white/50">{sched.endTime}</p>
                                       </>
-                                    ) : <p className="text-white/20">Off</p>}
+                                    ) : <p className="text-white/50">Off</p>}
                                   </div>
                                 );
                               })}
@@ -190,7 +190,7 @@ export default function StaffPage() {
                                 ].map((m) => (
                                   <div key={m.label} className="bg-white/5 rounded-lg p-3 text-center">
                                     <p className="text-lg font-bold">{m.value}</p>
-                                    <p className="text-xs text-white/40">{m.label}</p>
+                                    <p className="text-xs text-white/60">{m.label}</p>
                                   </div>
                                 ))}
                               </div>
@@ -241,14 +241,14 @@ export default function StaffPage() {
                       className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-[#d4a017] transition-colors" />
                   </div>
                   <div>
-                    <label className="text-sm text-white/50 block mb-1">Login Password * <span className="text-white/30 font-normal">(barber uses this to sign in)</span></label>
+                    <label className="text-sm text-white/60 block mb-1">Login Password * <span className="text-white/50 font-normal">(barber uses this to sign in)</span></label>
                     <div className="relative">
                       <input type={showPw ? "text" : "password"} value={form.password}
                         onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
                         placeholder="Min 6 characters"
                         className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 pr-11 focus:outline-none focus:border-[#d4a017] transition-colors" />
                       <button type="button" onClick={() => setShowPw(v => !v)}
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors">
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors">
                         {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
@@ -282,7 +282,7 @@ export default function StaffPage() {
                               <input type="time" value={form.schedule[i].startTime}
                                 onChange={(e) => updateSchedule(i, "startTime", e.target.value)}
                                 className="bg-[#080808] border border-white/10 rounded-lg px-2 py-1 text-sm focus:outline-none focus:border-[#d4a017]" />
-                              <span className="text-white/30">—</span>
+                              <span className="text-white/50">—</span>
                               <input type="time" value={form.schedule[i].endTime}
                                 onChange={(e) => updateSchedule(i, "endTime", e.target.value)}
                                 className="bg-[#080808] border border-white/10 rounded-lg px-2 py-1 text-sm focus:outline-none focus:border-[#d4a017]" />

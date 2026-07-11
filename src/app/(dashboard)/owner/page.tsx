@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 import {
   TrendingUp, TrendingDown, Users, Calendar, DollarSign,
   AlertTriangle, Clock, Scissors, Star, Sparkles,
   ArrowRight, RefreshCw,
 } from "lucide-react";
 import Link from "next/link";
-import api from "@/lib/api";
+import api, { paymentsAPI } from "@/lib/api";
 import { formatCurrency } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/slices/authSlice";
@@ -105,6 +106,15 @@ export default function OwnerDashboard() {
   const { user } = useAuthStore();
   const [period, setPeriod] = useState<Period>("week");
   const [now, setNow] = useState(new Date());
+  const [payoutForm, setPayoutForm] = useState({
+    name: "",
+    phoneNumber: "+233",
+    amount: "",
+    network: "MTN" as "MTN" | "TELECEL" | "AT",
+  });
+  const [isSubmittingPayout, setIsSubmittingPayout] = useState(false);
+  const [walletBalance, setWalletBalance] = useState<number | null>(null);
+  const [isLoadingBalance, setIsLoadingBalance] = useState(false);
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 60_000);
@@ -120,6 +130,22 @@ export default function OwnerDashboard() {
 
   const d = data?.data;
   const hour = now.getHours();
+
+  useEffect(() => {
+    const loadBalance = async () => {
+      setIsLoadingBalance(true);
+      try {
+        const response = await paymentsAPI.balance();
+        setWalletBalance(Number(response.data?.data?.balance ?? 0));
+      } catch {
+        setWalletBalance(null);
+      } finally {
+        setIsLoadingBalance(false);
+      }
+    };
+
+    loadBalance();
+  }, []);
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
   const firstName = user?.name?.split(" ")[0] ?? "there";
 
@@ -128,29 +154,61 @@ export default function OwnerDashboard() {
       label: "Revenue",       rawValue: d.metrics.totalRevenue,    prefix: "GHS ",
       trend: d.metrics.trends.revenue, trendUp: d.metrics.trends.revenueUp,
       trendSub: `vs last ${period}`,
-      iconBg: "bg-amber-50",   iconColor: "#d97706", icon: DollarSign,
+      iconBg: "bg-amber-500/15",   iconColor: "#f59e0b", icon: DollarSign,
     },
     {
       label: "Bookings",      rawValue: d.metrics.totalBookings,
       trend: d.metrics.trends.bookings, trendUp: d.metrics.trends.bookingsUp,
       trendSub: `${d.metrics.completedBookings} completed`,
-      iconBg: "bg-blue-50",    iconColor: "#2563eb", icon: Calendar,
+      iconBg: "bg-blue-500/15",    iconColor: "#60a5fa", icon: Calendar,
     },
     {
       label: "Customers",     rawValue: d.metrics.uniqueCustomers,
       trend: d.metrics.trends.customers, trendUp: d.metrics.trends.customersUp,
       trendSub: "unique visitors",
-      iconBg: "bg-violet-50",  iconColor: "#7c3aed", icon: Users,
+      iconBg: "bg-violet-500/15",  iconColor: "#a78bfa", icon: Users,
     },
     {
       label: "No-show rate",  rawValue: d.metrics.noShowRate,  suffix: "%",
       trend: d.metrics.trends.noShowRate, trendUp: d.metrics.trends.noShowRateUp,
       trendSub: `${d.metrics.noShows} missed`,
-      iconBg: d.metrics.noShowRate > 15 ? "bg-red-50" : "bg-emerald-50",
-      iconColor: d.metrics.noShowRate > 15 ? "#dc2626" : "#059669",
+      iconBg: d.metrics.noShowRate > 15 ? "bg-red-500/15" : "bg-emerald-500/15",
+      iconColor: d.metrics.noShowRate > 15 ? "#f87171" : "#34d399",
       icon: AlertTriangle,
     },
   ] : [];
+
+  const handlePayoutSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmittingPayout(true);
+
+    try {
+      const amount = Number(payoutForm.amount);
+      if (!payoutForm.name.trim() || !payoutForm.phoneNumber.trim() || Number.isNaN(amount) || amount <= 0) {
+        toast.error("Please fill in a valid recipient name, phone number, and amount.");
+        return;
+      }
+
+      const response = await paymentsAPI.disburse({
+        recipients: [{
+          name: payoutForm.name.trim(),
+          phoneNumber: payoutForm.phoneNumber.trim(),
+          amount,
+          network: payoutForm.network,
+        }],
+        currency: "GHS",
+        reference: `OWNER-PAYOUT-${Date.now()}`,
+      });
+
+      toast.success(response.data?.message ?? "Payout request submitted successfully.");
+      setPayoutForm({ name: "", phoneNumber: "+233", amount: "", network: "MTN" });
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Unable to submit payout request.";
+      toast.error(message);
+    } finally {
+      setIsSubmittingPayout(false);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -213,6 +271,87 @@ export default function OwnerDashboard() {
         }
       </div>
 
+      {/* Payout action */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.18 }}
+        className="glass-card p-5"
+      >
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="font-semibold text-foreground">Send a payout</h2>
+            <p className="text-sm text-muted-foreground">Validate the recipient and disburse funds from your Moolre wallet.</p>
+          </div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-300">
+            <DollarSign className="h-3.5 w-3.5" />
+            {isLoadingBalance ? "Checking wallet..." : `Wallet: GHS ${walletBalance ?? "—"}`}
+          </div>
+        </div>
+
+        <form onSubmit={handlePayoutSubmit} className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          <div className="md:col-span-2">
+            <label className="mb-1 block text-sm font-medium text-foreground">Recipient name</label>
+            <input
+              value={payoutForm.name}
+              onChange={(e) => setPayoutForm((prev) => ({ ...prev, name: e.target.value }))}
+              className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-foreground outline-none ring-0 placeholder:text-muted-foreground"
+              placeholder="e.g. Ama Mensah"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-foreground">Phone number</label>
+            <input
+              value={payoutForm.phoneNumber}
+              onChange={(e) => setPayoutForm((prev) => ({ ...prev, phoneNumber: e.target.value }))}
+              className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-foreground outline-none ring-0 placeholder:text-muted-foreground"
+              placeholder="+233241234567"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-foreground">Network</label>
+            <select
+              value={payoutForm.network}
+              onChange={(e) => setPayoutForm((prev) => ({ ...prev, network: e.target.value as "MTN" | "TELECEL" | "AT" }))}
+              className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-foreground outline-none"
+            >
+              <option value="MTN">MTN</option>
+              <option value="TELECEL">Telecel</option>
+              <option value="AT">AT</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-foreground">Amount (GHS)</label>
+            <input
+              type="number"
+              min="0.01"
+              step="0.01"
+              value={payoutForm.amount}
+              onChange={(e) => setPayoutForm((prev) => ({ ...prev, amount: e.target.value }))}
+              className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-foreground outline-none ring-0"
+              placeholder="10.00"
+              required
+            />
+          </div>
+
+          <div className="md:col-span-2 xl:col-span-1 flex items-end">
+            <button
+              type="submit"
+              disabled={isSubmittingPayout}
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {isSubmittingPayout ? "Sending..." : "Send payout"}
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </form>
+      </motion.div>
+
       {/* Charts row */}
       <div className="grid lg:grid-cols-3 gap-4">
 
@@ -230,8 +369,8 @@ export default function OwnerDashboard() {
             <span className={cn(
               "flex items-center gap-1.5 text-sm font-semibold px-2.5 py-1 rounded-full border",
               d?.metrics.trends.revenueUp
-                ? "text-green-700 bg-green-50 border-green-100"
-                : "text-red-700 bg-red-50 border-red-100"
+                ? "text-green-400 bg-green-500/15 border-green-500/25"
+                : "text-red-400 bg-red-500/15 border-red-500/25"
             )}>
               {d?.metrics.trends.revenueUp
                 ? <TrendingUp className="w-3.5 h-3.5" />

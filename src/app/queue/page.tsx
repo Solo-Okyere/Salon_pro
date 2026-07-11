@@ -103,7 +103,7 @@ function BarberCard({
         {/* Info */}
         <div className="flex-1 min-w-0">
           <p className="text-sm font-bold truncate">{barber.name}</p>
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5">
+          <div className="flex items-center gap-1.5 text-xs text-white/60 mt-0.5">
             {barber.rating > 0 && (
               <span className="flex items-center gap-0.5">
                 <Star className="w-3 h-3 fill-[#d4a017] text-[#d4a017]" />
@@ -122,7 +122,7 @@ function BarberCard({
           <p className="text-sm font-bold">~{barber.estimatedWaitMinutes}min</p>
           <span className={cn(
             "inline-flex items-center gap-1 text-[10px] font-semibold mt-0.5",
-            barber.inService ? "text-primary" : barber.waiting === 0 ? "text-green-500" : "text-muted-foreground"
+            barber.inService ? "text-primary" : barber.waiting === 0 ? "text-green-500" : "text-white/50"
           )}>
             <span className={cn(
               "w-1.5 h-1.5 rounded-full",
@@ -264,7 +264,7 @@ function QueueBoard() {
 
   if (!status) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-muted-foreground">
+      <div className="min-h-screen flex items-center justify-center text-white/60">
         Shop not found
       </div>
     );
@@ -274,43 +274,43 @@ function QueueBoard() {
     <div className="min-h-screen bg-background p-4 max-w-2xl mx-auto pb-36">
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-6 pt-6">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">{status.shop.name}</h1>
-          <p className="text-muted-foreground text-sm flex items-center gap-1.5">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            Live Queue
-          </p>
+        <div className="flex items-center justify-between mb-6 pt-6">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">{status.shop.name}</h1>
+            <p className="text-white/60 text-sm flex items-center gap-1.5">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+              Live Queue
+            </p>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold">
+            <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            Live
+          </div>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold">
-          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          Live
-        </div>
-      </div>
 
-      {/* Shop-wide stats */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-2xl border border-border bg-card">
-          <div className="flex items-center gap-2 text-muted-foreground text-xs mb-2">
-            <Users className="w-3.5 h-3.5" /> Total waiting
-          </div>
-          <div className="text-3xl font-extrabold">{status.totalWaiting}</div>
-        </motion.div>
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-          className="p-4 rounded-2xl border border-border bg-card">
-          <div className="flex items-center gap-2 text-muted-foreground text-xs mb-2">
-            <Scissors className="w-3.5 h-3.5" /> Barbers
-          </div>
-          <div className="text-3xl font-extrabold">{status.barbers.length}</div>
-        </motion.div>
-      </div>
+        {/* Shop-wide stats */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+            className="p-4 rounded-2xl border border-border bg-card">
+            <div className="flex items-center gap-2 text-white/60 text-xs mb-2">
+              <Users className="w-3.5 h-3.5" /> Total waiting
+            </div>
+            <div className="text-3xl font-extrabold">{status.totalWaiting}</div>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="p-4 rounded-2xl border border-border bg-card">
+            <div className="flex items-center gap-2 text-white/60 text-xs mb-2">
+              <Scissors className="w-3.5 h-3.5" /> Barbers
+            </div>
+            <div className="text-3xl font-extrabold">{status.barbers.length}</div>
+          </motion.div>
+        </div>
 
       {/* ── Choose your barber ─────────────────────────────────────────────── */}
       {status.barbers.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+          <h2 className="text-sm font-semibold text-white/60 mb-3 uppercase tracking-wider">
             Choose your barber
           </h2>
           <div className="space-y-3">
@@ -335,15 +335,15 @@ function QueueBoard() {
             className="p-5 rounded-2xl border-2 border-primary bg-primary/5 mb-6"
           >
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">
-                  Your position{selectedBarber ? ` with ${selectedBarber.name}` : ""}
-                </p>
-                <div className="text-5xl font-extrabold text-primary">#{myPosition}</div>
-                <p className="text-sm text-muted-foreground mt-1">
-                  ~{(myPosition - 1) * 30} min wait
-                </p>
-              </div>
+                <div>
+                  <p className="text-sm text-white/60 mb-1">
+                    Your position{selectedBarber ? ` with ${selectedBarber.name}` : ""}
+                  </p>
+                  <div className="text-5xl font-extrabold text-primary">#{myPosition}</div>
+                  <p className="text-sm text-white/60 mt-1">
+                    ~{(myPosition - 1) * 30} min wait
+                  </p>
+                </div>
               <div className={cn(
                 "px-3 py-1.5 rounded-full text-xs font-bold uppercase",
                 myEntry.status === "CALLED"     ? "bg-green-500/15 text-green-500" :
@@ -368,7 +368,7 @@ function QueueBoard() {
             <Scissors className="w-4 h-4 text-primary" />
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-white/60">
               Currently serving{selectedBarber ? ` (${selectedBarber.name})` : ""}
             </p>
             <p className="text-sm font-semibold">
@@ -380,8 +380,8 @@ function QueueBoard() {
 
       {/* Queue List (scoped to selected barber) */}
       <div className="space-y-2 mb-8">
-        <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
-          {selectedBarber ? `${selectedBarber.name}'s queue` : "Queue"}
+        <h2 className="text-sm font-semibold text-white/60 mb-3 uppercase tracking-wider">
+          Queue
         </h2>
         <AnimatePresence initial={false}>
           {waitingEntries.map((entry, idx) => {
@@ -423,7 +423,7 @@ function QueueBoard() {
                     <p className="text-sm font-medium">
                       {isMe ? "You" : `Customer #${entry.queueNumber}`}
                     </p>
-                    <p className="text-xs text-muted-foreground">~{idx * 30} min wait</p>
+                    <p className="text-xs text-white/60">~{idx * 30} min wait</p>
                   </div>
                 </div>
 
@@ -441,7 +441,7 @@ function QueueBoard() {
         </AnimatePresence>
 
         {waitingEntries.length === 0 && (
-          <div className="text-center py-12 text-muted-foreground text-sm">
+          <div className="text-center py-12 text-white/60 text-sm">
             {selectedBarber
               ? `${selectedBarber.name} has no one waiting — go right in!`
               : "Queue is empty — walk right in!"}
@@ -499,7 +499,7 @@ function QueueBoard() {
                       Enter your details to join{selectedBarber ? ` ${selectedBarber.name}'s queue` : ""}
                     </p>
                     <div className="flex items-center gap-2">
-                      <User className="w-4 h-4 text-muted-foreground shrink-0" />
+                      <User className="w-4 h-4 text-white/60 shrink-0" />
                       <input
                         type="text" value={guestName} onChange={(e) => setGuestName(e.target.value)}
                         placeholder="Full name"
@@ -507,7 +507,7 @@ function QueueBoard() {
                       />
                     </div>
                     <div className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-muted-foreground shrink-0" />
+                      <Phone className="w-4 h-4 text-white/60 shrink-0" />
                       <input
                         type="tel" value={guestPhone} onChange={(e) => setGuestPhone(e.target.value)}
                         placeholder="024 000 0000"
@@ -517,7 +517,7 @@ function QueueBoard() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => setShowGuestForm(false)}
-                        className="flex-1 py-3 rounded-xl border border-border text-muted-foreground text-sm font-medium hover:bg-secondary transition-colors"
+                        className="flex-1 py-3 rounded-xl border border-border text-white/60 text-sm font-medium hover:bg-secondary transition-colors"
                       >
                         Cancel
                       </button>
@@ -539,7 +539,7 @@ function QueueBoard() {
 
       {/* Prompt to pick a barber if none are available yet */}
       {!myEntry && !selectedBarberId && status.barbers.length === 0 && (
-        <div className="text-center py-8 text-muted-foreground text-sm">
+        <div className="text-center py-8 text-white/60 text-sm">
           No barbers available right now. Please check back soon.
         </div>
       )}

@@ -114,13 +114,13 @@ function VerifyForm() {
 
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-1.5 text-sm text-white/35 hover:text-white/70 transition-colors mb-6"
+            className="flex items-center gap-1.5 text-sm text-white/50 hover:text-white/80 transition-colors mb-6"
           >
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
 
           <h1 className="text-2xl font-black mb-1">Check your phone</h1>
-          <p className="text-white/35 text-sm mb-8">
+          <p className="text-white/60 text-sm mb-8">
             We sent a 6-digit code to{" "}
             <span className="text-white font-semibold">{phone}</span>
           </p>
@@ -144,16 +144,16 @@ function VerifyForm() {
           </div>
 
           {loading && (
-            <div className="flex items-center justify-center gap-2 text-white/40 text-sm mb-4">
+            <div className="flex items-center justify-center gap-2 text-white/60 text-sm mb-4">
               <Loader2 className="w-4 h-4 animate-spin" />
               Verifying…
             </div>
           )}
 
-          <p className="text-sm text-white/30 text-center">
+          <p className="text-sm text-white/50 text-center">
             Didn&apos;t receive it?{" "}
             {resendCooldown > 0 ? (
-              <span className="text-white/20">Resend in {resendCooldown}s</span>
+              <span className="text-white/50">Resend in {resendCooldown}s</span>
             ) : (
               <button
                 onClick={resend}

@@ -146,9 +146,9 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
                   <div>
                     <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Region *</label>
                     <select value={form.region} onChange={set("region")} required
-                      className="input-base w-full px-3 py-2.5 rounded-lg text-sm" style={{ background: "rgba(255,255,255,0.06)" }}>
-                      <option value="">Select…</option>
-                      {REGIONS.map(r => <option key={r}>{r}</option>)}
+                      className="select-base w-full px-3 py-2.5 rounded-lg text-sm bg-white text-gray-900 dark:bg-[#111827] dark:text-white">
+                      <option value="" className="text-gray-500">Select…</option>
+                      {REGIONS.map(r => <option key={r} value={r}>{r}</option>)}
                     </select>
                   </div>
                 </div>
@@ -306,12 +306,12 @@ export default function AdminConsole() {
   });
 
   const statItems = s ? [
-    { label: "Total shops", rawValue: s.totalShops,            iconBg: "bg-blue-50",    iconColor: "#2563eb", icon: Store,          trendSub: `${s.activeShops} active` },
-    { label: "Users",       rawValue: s.totalUsers,            iconBg: "bg-violet-50",  iconColor: "#7c3aed", icon: Users },
-    { label: "Pending",     rawValue: s.pendingVerification,   iconBg: s.pendingVerification ? "bg-amber-50" : "bg-green-50", iconColor: s.pendingVerification ? "#d97706" : "#059669", icon: s.pendingVerification ? AlertTriangle : CheckCircle },
-    { label: "Bookings",    rawValue: s.totalBookings,         iconBg: "bg-green-50",   iconColor: "#16a34a", icon: Calendar,       trendSub: `${s.noShowRate.toFixed(1)}% no-show` },
-    { label: "Revenue",     rawValue: Math.round(s.totalRevenue / 1000), iconBg: "bg-amber-50", iconColor: "#d97706", icon: DollarSign, prefix: "GHS ", suffix: "k" },
-    { label: "Growth",      rawValue: s.monthlyGrowth,         iconBg: "bg-emerald-50", iconColor: "#059669", icon: TrendingUp,     suffix: "%", trend: `+${s.monthlyGrowth}%`, trendUp: s.monthlyGrowth >= 0, trendSub: "this month" },
+    { label: "Total shops", rawValue: s.totalShops,            iconBg: "bg-blue-500/15",    iconColor: "#60a5fa", icon: Store,          trendSub: `${s.activeShops} active` },
+    { label: "Users",       rawValue: s.totalUsers,            iconBg: "bg-violet-500/15",  iconColor: "#a78bfa", icon: Users },
+    { label: "Pending",     rawValue: s.pendingVerification,   iconBg: s.pendingVerification ? "bg-amber-500/15" : "bg-emerald-500/15", iconColor: s.pendingVerification ? "#f59e0b" : "#34d399", icon: s.pendingVerification ? AlertTriangle : CheckCircle },
+    { label: "Bookings",    rawValue: s.totalBookings,         iconBg: "bg-emerald-500/15",   iconColor: "#34d399", icon: Calendar,       trendSub: `${s.noShowRate.toFixed(1)}% no-show` },
+    { label: "Revenue",     rawValue: Math.round(s.totalRevenue / 1000), iconBg: "bg-amber-500/15", iconColor: "#f59e0b", icon: DollarSign, prefix: "GHS ", suffix: "k" },
+    { label: "Growth",      rawValue: s.monthlyGrowth,         iconBg: "bg-emerald-500/15", iconColor: "#34d399", icon: TrendingUp,     suffix: "%", trend: `+${s.monthlyGrowth}%`, trendUp: s.monthlyGrowth >= 0, trendSub: "this month" },
   ] : [];
 
   return (
