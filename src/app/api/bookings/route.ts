@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
 import { getUserFromToken, normalizePhone } from "@/lib/auth";
 import { bookingSchema } from "@/lib/validators";
+import { sendAndLogNotification } from "@/lib/notifications";
+import { sms } from "@/lib/sms";
 import { z } from "zod";
 
 export async function GET(req: NextRequest) {
@@ -144,6 +147,29 @@ export async function POST(req: NextRequest) {
         shop: { select: { id: true, name: true, address: true, phone: true } },
       },
     });
+
+    // No deposit required — booking is confirmed immediately, so notify now
+    if (booking.status === "CONFIRMED") {
+      await sendAndLogNotification({
+        userId: booking.customerId,
+        shopId: booking.shopId,
+        bookingId: booking.id,
+        channel: "SMS",
+        type: "BOOKING_CONFIRMATION",
+        title: "Booking confirmed",
+        body: `Booking confirmed at ${booking.shop.name} on ${booking.scheduledAt.toISOString()}`,
+        templateFn: () =>
+          sms.bookingConfirmation(
+            booking.customer.phone,
+            booking.customer.name,
+            booking.shop.name,
+            format(booking.scheduledAt, "dd MMM yyyy"),
+            format(booking.scheduledAt, "h:mm a"),
+            booking.barber.user.name,
+            booking.id
+          ),
+      });
+    }
 
     return NextResponse.json({ success: true, data: booking }, { status: 201 });
   } catch (err) {

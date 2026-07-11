@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { generateOTP, normalizePhone } from "@/lib/auth";
 import { loginSchema } from "@/lib/validators";
+import { sendAndLogNotification } from "@/lib/notifications";
+import { sms } from "@/lib/sms";
 
 export async function POST(req: NextRequest) {
   try {
@@ -44,8 +46,16 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // TODO: Send via SMS/WhatsApp
-    // In dev, return OTP in response
+    await sendAndLogNotification({
+      userId: user.id,
+      channel: "SMS",
+      type: "OTP",
+      title: "Login code",
+      body: `Your SalonPro verification code is ${code}.`,
+      templateFn: () => sms.otpCode(normalizedPhone, code),
+    });
+
+    // In dev, also return OTP in response as a fallback when Moolre isn't configured yet
     const devPayload = process.env.NODE_ENV === "development" ? { otp: code } : {};
 
     return NextResponse.json({

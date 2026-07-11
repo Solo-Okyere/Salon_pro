@@ -2,49 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUserFromToken } from "@/lib/auth";
 import { paymentSchema } from "@/lib/validators";
+import { moolre } from "@/lib/moolre";
 import { z } from "zod";
-
-// MTN MoMo payment initiation
-async function initiateMTNMoMo(amount: number, phone: string, reference: string) {
-  const baseUrl = process.env.MTN_MOMO_BASE_URL!;
-  const subscriptionKey = process.env.MTN_MOMO_SUBSCRIPTION_KEY!;
-  const apiUser = process.env.MTN_MOMO_API_USER!;
-  const apiKey = process.env.MTN_MOMO_API_KEY!;
-
-  const credentials = Buffer.from(`${apiUser}:${apiKey}`).toString("base64");
-  const tokenRes = await fetch(`${baseUrl}/collection/token/`, {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${credentials}`,
-      "Ocp-Apim-Subscription-Key": subscriptionKey,
-    },
-  });
-
-  if (!tokenRes.ok) throw new Error("Failed to get MTN token");
-  const { access_token } = await tokenRes.json();
-
-  const payRes = await fetch(`${baseUrl}/collection/v1_0/requesttopay`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-      "X-Reference-Id": reference,
-      "X-Target-Environment": "sandbox",
-      "Ocp-Apim-Subscription-Key": subscriptionKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      amount: amount.toString(),
-      currency: "GHS",
-      externalId: reference,
-      payer: { partyIdType: "MSISDN", partyId: phone.replace("+", "") },
-      payerMessage: "SalonPro booking payment",
-      payeeNote: "Booking deposit",
-    }),
-  });
-
-  if (payRes.status !== 202) throw new Error("MTN MoMo request failed");
-  return reference;
-}
 
 export async function POST(req: NextRequest) {
   const token = req.headers.get("authorization")?.replace("Bearer ", "");
@@ -86,11 +45,23 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Initiate with provider
-    if (data.provider === "MTN_MOMO") {
-      await initiateMTNMoMo(data.amount, data.phoneNumber, reference);
+    try {
+      const result = await moolre.initiatePayment(data.provider, data.amount, data.phoneNumber, reference);
+      await prisma.payment.update({
+        where: { id: payment.id },
+        data: { momoTxId: typeof result.data === "string" ? result.data : undefined },
+      });
+    } catch (providerErr) {
+      const failReason = providerErr instanceof Error ? providerErr.message : "Unknown error";
+      await prisma.payment.update({
+        where: { id: payment.id },
+        data: { status: "FAILED", failReason },
+      });
+      return NextResponse.json(
+        { success: false, message: "Payment initiation failed. Please try again." },
+        { status: 502 }
+      );
     }
-    // TODO: Telecel Cash, AT Money integrations
 
     return NextResponse.json({
       success: true,
